@@ -380,7 +380,7 @@ export const exportToPdf = async ({
       pdf.text(annotationText, annotationXScaled + annotationOffsetX + 2, annotationYScaled + annotationOffsetY + 7);
     });
 
-    // Save the PDF
+    // Save the P D F 
     pdf.save(`${projectName}.pdf`);
   } catch (error) {
     console.error("Error exporting to PDF:", error);
