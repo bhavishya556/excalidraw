@@ -26,7 +26,7 @@ To run this project locally, follow these steps:
 - **Export PDF Button**:  
   This feature allows users to export the current content as a PDF file for easy sharing and offline access.  
    
-  ![Export PDF Screenshot](path-to-your-screenshot)  
+  ![Export PDF Screenshot](https://asset.cloudinary.com/db384mimv/1f1a83fc62ca918d7b748ef76b6aa261)  
 
 
 - **Background**:  
