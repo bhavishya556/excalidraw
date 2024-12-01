@@ -19,6 +19,7 @@ import {
   copyToClipboard,
 } from "../excalidraw/clipboard";
 import { jsPDF } from "jspdf";
+import { GetColorName } from 'hex-color-to-color-name';
 
 export { MIME_TYPES };
 
@@ -44,6 +45,7 @@ interface Element {
   text?: string;
   fontSize?: number;
   fontFamily?: string;
+  backgroundColor?: string;
 }
 
 interface Annotation {
@@ -63,6 +65,7 @@ interface Annotation {
   x2?: number;
   y2?: number;
   color?: string;
+  backgroundColor?: string;
 }
 export const exportToCanvas = ({
   elements,
@@ -244,6 +247,12 @@ export const exportToClipboard = async (
 };
 
 
+//get color for anotation from hexcode
+const getColorName = (hex: string) => {
+  const validHex = hex || "#FFFFFF";
+  const colorName = GetColorName(validHex);
+  return colorName ? colorName : "Unknown Color";
+};
 
 // Generate annotations function
 
@@ -253,54 +262,76 @@ function generateAnnotations(elements: Element[]): Annotation[] {
 
   // Iterate over the elements to generate the necessary annotations
   elements.forEach((element) => {
-    const annotation: Annotation = { type: "", x: element.x, y: element.y };
+    const annotation: Annotation = { 
+      type: "", 
+      x: element.x, 
+      y: element.y,
+      backgroundColor: element.backgroundColor || "transparent",
+      strokeColor: element.strokeColor || "#000000"
+    };
 
     // Handle different types of elements (Circle, Rectangle, etc.)
     switch (element.type) {
       case "ellipse":
-        annotation.type = "circle"; // Represent as a circle
-        annotation.radius = (element.width || 0) / 2; // Assuming width = height for circle
-        annotation.text = "This is a circle"; // Adding text description for the circle
+        annotation.type = "circle";
+        annotation.radius = (element.width || 0) / 2;
+        annotation.text = "It has a circle";
         break;
 
       case "rectangle":
         annotation.type = "rectangle";
         annotation.width = element.width;
         annotation.height = element.height;
-        annotation.text = "This is a rectangle"; // Adding text description for the rectangle
+        annotation.text = "It has a rectangle";
         break;
 
       case "square":
         annotation.type = "square";
         annotation.width = element.width;
         annotation.height = element.height;
-        annotation.text = "This is a square"; // Adding text description for the square
+        annotation.text = "It has a square";
         break;
 
       case "diamond":
         annotation.type = "diamond";
         annotation.width = element.width;
         annotation.height = element.height;
-        annotation.text = "This is a diamond"; // Adding text description for the rhombus
+        annotation.text = "It has a diamond";
         break;
-        
+
       case "rhombus":
         annotation.type = "rhombus";
         annotation.width = element.width;
         annotation.height = element.height;
-        annotation.text = "This is a rhombus"; // Adding text description for the rhombus
+        annotation.text = "It has a rhombus";
+        break;
+
+      case "line":
+        annotation.type = "line";
+        annotation.width = element.width;
+        annotation.text = "It has a line";
+        break;
+
+      case "arrow":
+        annotation.type = "arrow";
+        annotation.width = element.width;
+        annotation.text = "It has an arrow";
+        break;
+
+      case "freedraw":
+        annotation.type = "freedraw";
+        annotation.text = "It has a freehand drawing";
         break;
 
       default:
-        // Handle other cases or unknown element types
         console.warn(`Unknown element type: ${element.type}`);
         break;
     }
 
-    annotations.push(annotation); // Push each annotation to the array
+    annotations.push(annotation); 
   });
-console.log(annotations)
-  return annotations; // Return the array of annotations
+  
+  return annotations;
 }
 
 // Export to PDF function
@@ -323,72 +354,39 @@ export const exportToPdf = async ({
       files,
     });
 
-    console.log("canvas", appState);
     // Convert the canvas to a PNG image
     const imgData = canvas.toDataURL("image/png");
 
-    // Create a new PDF document
+    // create pdf
     const pdf = new jsPDF();
-
-    // Add the whiteboard image to the PDF
     pdf.addImage(imgData, "PNG", 10, 10, 190, 0);
 
-    // Generate annotations
-    const annotations = generateAnnotations(elements);
+    // annotations if true
+    if (appState.exportWithAnnotations) {
+      // Generate annotations
+      const annotations = generateAnnotations(elements);
 
-    // Scaling logic
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-    const pdfWidth = 190; // PDF width for the image
-    let pdfHeight = 150;  // Starting height of the PDF (adjust as needed)
+      // add annotations at the end of the PDF
+      pdf.addPage();
+      pdf.setFont("times", "normal");
+      pdf.setFontSize(12);
 
-    // Calculate PDF height based on canvas height to maintain proportionality
-    const scaleX = pdfWidth / canvasWidth;
-    const scaleY = pdfHeight / canvasHeight;
+      // add a annotation heading
+      pdf.text("Annotations", 10, 20);
 
-    // Adjust the PDF height based on the content if needed
-    pdfHeight = canvasHeight * scaleY + 30;  // Adding extra space for annotations
+      // Iterate through annotations and add them as a list
+      annotations.forEach((annotation, index) => {
+        const annotationText = annotation.text || "Not Sure";
+        const backgroundColorName = getColorName(annotation?.backgroundColor ?? "#FFFFFF"); 
+        const borderColorName = getColorName(annotation?.strokeColor ?? "#FFFFFF"); 
+        const annotationInfo = `${index + 1}. ${annotationText} with the background color of ${backgroundColorName} and border color of ${borderColorName}`;
+        pdf.text(annotationInfo, 10, 30 + index * 10);
+      });
+    }
 
-    // Iterate through annotations and add them to the PDF
-    annotations.forEach((annotation) => {
-      const annotationX = annotation.x ?? 0; // Default to 0 if undefined
-      const annotationY = annotation.y ?? 0; // Default to 0 if undefined
-      const annotationWidth = annotation.width ?? 10; // Default width
-      const annotationHeight = annotation.height ?? 10; // Default height
-      const annotationText = annotation.text ?? "No text provided"; // Default text
-
-      // Scale the annotation positions and sizes based on canvas size
-      const annotationXScaled = annotationX * scaleX;
-      const annotationYScaled = annotationY * scaleY;
-      const annotationWidthScaled = annotationWidth * scaleX;
-      const annotationHeightScaled = annotationHeight * scaleY;
-
-      // Position the annotation near the object (adjust these offsets as needed)
-      const annotationOffsetX = 90;  // Adjusting for text position
-      const annotationOffsetY = 100;  // Adjusting for text position
-
-      // Add the annotation text near the shape without the background
-      pdf.setFont("times", "italic");
-      pdf.setFontSize(10);
-      if(appState.exportWithDarkMode){
-
-        pdf.setTextColor(255, 255, 255); // Black text color
-      }else{
-
-        pdf.setTextColor(0, 0, 0); // Black text color
-      }
-      pdf.text(annotationText, annotationXScaled + annotationOffsetX + 2, annotationYScaled + annotationOffsetY + 7);
-    });
-
-    // Save the P D F 
+    // save pdf
     pdf.save(`${projectName}.pdf`);
   } catch (error) {
     console.error("Error exporting to PDF:", error);
   }
 };
-
-
-
-
-
-

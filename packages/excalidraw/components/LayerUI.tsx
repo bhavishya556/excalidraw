@@ -192,6 +192,7 @@ const LayerUI = ({
       />
     );
   };
+  //pdf dilog box
   const renderPdfExportDialog = () => {
     if (
       !UIOptions.canvasActions.saveAsImage ||
@@ -199,7 +200,6 @@ const LayerUI = ({
     ) {
       return null;
     }
-    
     return (
       <PdfExportDialog
         elements={elements}
@@ -210,7 +210,6 @@ const LayerUI = ({
         onCloseRequest={() => setAppState({ openDialog: null })}
         name={app.getName()}
       />
- 
     );
   };
 

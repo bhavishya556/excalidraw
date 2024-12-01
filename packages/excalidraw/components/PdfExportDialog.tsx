@@ -242,7 +242,6 @@ const PdfExportModal = ({
             />
           </ExportSetting>
         )}
-
         <ExportSetting
           label={t("imageExportDialog.label.scale")}
           name="exportScale"
@@ -268,14 +267,15 @@ const PdfExportModal = ({
         >
          <Switch
             name="annotation"
-            checked={exportWithAnnotations} // Bind the state to the switch
-            onChange={(checked) => setExportWithAnnotations(checked)} // Update state directly inside onChange
+            checked={exportWithAnnotations} 
+            onChange={(checked) => setExportWithAnnotations(checked)} 
           />
         </ExportSetting>
         
    
         
         <div className="PdfExportModal__settings__buttons">
+        {/* export pdf button */}
           <FilledButton
             className="PdfExportModal__button"
             label={t("imageExportDialog.title.copyPngToClipboard")}
@@ -295,13 +295,8 @@ const PdfExportModal = ({
               
               
               },)
-                  console.log("exportedElements",exportedElements)
-              console.log("files",files)
             }
-              // {
-              // console.log("exportedElements",exportedElements)
-              // console.log("files",files)
-              // }
+          
             }
           >
             Export to PDF
