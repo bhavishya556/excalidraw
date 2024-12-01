@@ -1,7 +1,7 @@
 <!-- 108108 -->
 
 # EXCALIDRAW   
-Thanks for giving me this opportunity
+Thank you for giving me this opportunity. I have chosen to develop an 'Export as PDF' with annotation feature.
 
 **Live Demo Link(deploy)**: [EXCALIDRAW](https://excalidraw-madelineandco.netlify.app/)   
 
