@@ -40,6 +40,9 @@ To run this project locally, follow these steps:
   Switches between light and dark modes, changing the background color accordingly.
   ![back](https://github.com/user-attachments/assets/7b844eab-8f16-4250-99da-90b905777099)
 
+- **Dark Mode**:  
+  Enables dark mode with a black background for better low-light viewing.  
+![dark](https://github.com/user-attachments/assets/289ed9e6-9fa1-489a-8f09-59d284ed8943)
 
 - **Scale**:  
   Provides zoom options with 1x, 2x, and 3x scaling.  
@@ -49,9 +52,7 @@ To run this project locally, follow these steps:
   Displays annotations at the end of the PDF when enabled.  
 ![annotation](https://github.com/user-attachments/assets/56069779-96a8-4308-bf8d-20a6786ea822)
 
-- **Dark Mode**:  
-  Enables dark mode with a black background for better low-light viewing.  
-![dark](https://github.com/user-attachments/assets/289ed9e6-9fa1-489a-8f09-59d284ed8943)
+
 
 ## Limitations  
 
