@@ -70,6 +70,16 @@ Although I contributed to many files in the codebase, this was the where I contr
 
 ## 
 
+## Libraries Used
+
+- **jsPDF**:  
+  - Used to generate and export the whiteboard content as a PDF file.
+
+- **Hex to Color Name**:  
+  - Converts Hex color codes to their respective color names for better annotation handling.
+
+
+
 ### Thanks Again
 
 Bhavishya Verma  
