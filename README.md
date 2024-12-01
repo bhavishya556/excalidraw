@@ -11,6 +11,7 @@ Thanks for giving me this opportunity
 
 To run this project locally, follow these steps:  
 
+
 1. Clone the repository:  
    ```bash  
    git clone https://github.com/bhavishya556/excalidraw.git
@@ -33,7 +34,7 @@ To run this project locally, follow these steps:
   This feature allows users to export the current content as a PDF file for easy sharing and offline access.  
    
 
-![export](https://github.com/user-attachments/assets/ac20016b-37bf-4d49-b507-4ad2165c1352)
+  ![export](https://github.com/user-attachments/assets/ac20016b-37bf-4d49-b507-4ad2165c1352)
 
 
 - **Background**:  
