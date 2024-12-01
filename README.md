@@ -51,7 +51,7 @@ To run this project locally, follow these steps:
 
 - **Annotation**:  
   Displays annotations at the end of the PDF when enabled.  
-![annotation](https://github.com/user-attachments/assets/56069779-96a8-4308-bf8d-20a6786ea822)
+![annotation](https://github.com/user-attachments/assets/66cec21a-c3c0-413c-961e-2b019935836f)
 
 
 
