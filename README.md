@@ -2,6 +2,8 @@
 # EXCALIDRAW   
 Thanks for giving me this opportunity
 
+**Live Demo Link(deploy)**: [EXCALIDRAW](https://excalidraw-madelineandco.netlify.app/)   
+
 ![madline](https://github.com/user-attachments/assets/f2976c8f-0a6b-416d-ab7d-b32918c5539a)
 
 ## Installation  
